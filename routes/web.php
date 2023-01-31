@@ -30,7 +30,7 @@ Route::middleware('auth')->group(function () {
 
 Route::get('community', [App\Http\Controllers\CommunityLinkController::class, 'index']);
 Route::post('community', [App\Http\Controllers\CommunityLinkController::class, 'store']);
-/* Ejercicio A33. Mas sobre rutas
+/* A33. Ejercicio 1. Mas sobre rutas
 Route::get('/user/{name?}', function ($name = null) {
     return $name;
 });
@@ -58,5 +58,21 @@ Route::get('/compruebaNumero/{id}', function () {
 Route::get('/compruebaNumeroNombre/{id}/{name}', function ($id, $name) {
     return "página a la que puedes acceder al comprobar que el 1er.parámetro está formado solo con números y el 2º parámetro solo con letras";
 })->where(['id' => '[0-9]+', 'name' => '[a-z]+']);
+
+/* A33. Ejercicio 2. Helpers
+Route::get('/user/{name?}', function ($name = null) {
+    return $name;
+});
+*/
+Route::get('/host', function () {
+    $host = env('DB_HOST');
+    return "Bienvenido a la página que muestra la IP de la BBDD: {$host}";
+});
+
+Route::get('/timezone', function () {
+    $zonahoraria = config('app.timezone');
+    return "Bienvenido a la página que muestra la zona horaria: {$zonahoraria}";
+});
+
 
 require __DIR__.'/auth.php';
