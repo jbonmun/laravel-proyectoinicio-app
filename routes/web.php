@@ -39,7 +39,7 @@ Route::get('/user/{name?}', function ($name = 'Invitado') {
     return "Bienvenido a la página de pruebas {$name}";
 });
 
-Route::post('/paginaPruebaPost', function ($name = 'Pruebas') {
+Route::post('/paginaPruebaPost', function () {
     return "Bienvenido a la página de pruebas POST";
 });
 
@@ -74,5 +74,52 @@ Route::get('/timezone', function () {
     return "Bienvenido a la página que muestra la zona horaria: {$zonahoraria}";
 });
 
+/* A33. Ejercicio 3. Más sobre vistas
+*/
 
-require __DIR__.'/auth.php';
+Route::get('/inicio', function () {
+    return view('/prueba/home');
+})->middleware(['auth', 'verified'])->name('inicio');
+
+Route::get('/fecha', function () {
+    $diaSemana = date('D');
+    $dia = date('d');
+    $mes = date('F');
+    $year = date('Y');
+    return view('/prueba/fecha', ['diaSemana' => $diaSemana, 'dia' => $dia, 'mes' => $mes, 'year' => $year]);
+})->middleware(['auth', 'verified'])->name('fecha');
+
+/*Route::get('/fecha2', function () {
+    $diaSemana = date('D');
+    $dia = date('d');
+    $mes = date('F');
+    $year = date('Y');
+    $var_fecha = array("diaSemana", "dia", "mes", "year");
+    return view('/prueba/fecha2', $res = compact($var_fecha));
+})->middleware(['auth', 'verified'])->name('fecha');
+*/
+// creo slug fechawith que al acceder a esa url me devuelve la fecha usando with
+Route::get('/fechawith', function () {
+    $diaSemana = date('D');
+    $dia = date('d');
+    $mes = date('F');
+    $year = date('Y');
+
+    return view('/prueba/fechawith')
+        ->with('diaSemana', $diaSemana)
+        ->with('dia', $dia)
+        ->with('mes', $mes)
+        ->with('year', $year);
+})->middleware(['auth', 'verified'])->name('fecha');
+////
+/**
+ * Añado ruta slug /error404 para que al acceder a este slug o cualquier otra url que no exista por el navegador, 
+ * me muestre la vista 404.blade.php que cotiene la direccion de una imagen del 404
+ * 
+ */
+Route::get('/error404', function () {
+    return view('/errors/404');
+});
+
+
+require __DIR__ . '/auth.php';
