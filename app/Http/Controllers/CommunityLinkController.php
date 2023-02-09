@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
+
+
 use App\Models\CommunityLink;
 use Illuminate\Http\Request;
+
+
 
 class CommunityLinkController extends Controller
 {
@@ -34,9 +39,21 @@ class CommunityLinkController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    /*este método store sirve para guardar
+     *los datos del formulario de la vista index para escribir un title y un link.
+     * He tenido tb que incluir "use Illuminate\Support\Facades\Auth;" para que me reconociera la clase Auth 
+     */
+     public function store(Request $request)
+    {   
+        $this->validate($request, [
+            'title' => 'required',
+            'link' =>  'required|active_url'
+
+        ]);
+        //dd($request);
+        request()->merge(['user_id' => Auth::id(), 'channel_id' => 1]);
+        CommunityLink::create($request->all());
+        return back();
     }
 
     /**
