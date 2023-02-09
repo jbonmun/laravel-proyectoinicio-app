@@ -122,4 +122,29 @@ Route::get('/error404', function () {
 });
 
 
+/* A33. Ejercicio 4. Más sobre Eloquent
+Trabajaremos sobre la tabla users. Lanza artisan tinker: "php artisan tinker"
+-Usa el método find de Eloquent para encontrar en la tabla users el registro con id 1: "User::find(1)"
+-Prueba el método findOrFail(). ¿Qué diferencia tiene respecto a find() cuando no se encuentra un registro? "User::all()"
+-Almacena en una variable $user el usuario con id=1 y accediendo a la propiedad name del objeto cambia el valor por tu nombre.
+"$user = User::find(1);"
+"$user->name = "Pepito Perez;" 
+"$user->password = "newpassword;"
+"user::save();"
+
+-Elimina el usuario con id=2 mediante el método delete ($user->delete).
+$user = User::find(2);
+$user->delete();
+User::find(2);
+-Crea un usuario nuevo. Primero tendrás que crear un objeto de tipo user ($user = new User) y después añadir valores a sus propiedades ($user->name="Luigi").
+-Crea otro usuario pero con el método create del modelo (User::create(array asociativo con los valores)).
+$user = new User;
+$user->name = "ana";
+$user->email = "ana@ana.com";
+$user->password = Hash::make("1234");
+user::save();
+*/
+
+
+
 require __DIR__ . '/auth.php';
