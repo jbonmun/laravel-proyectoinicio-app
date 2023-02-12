@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Channel;
+use App\Models\CommunityLink;
+use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Http\Request;
 
 class ChannelController extends Controller
@@ -35,8 +38,13 @@ class ChannelController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'channel_id' => 'required|exists:channels,id'
+        ]);
+        request()->merge(['user_id' => Auth::id(), 'channel_id' => 1]);
+        return back();
     }
+
 
     /**
      * Display the specified resource.

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Support\Facades\Auth;
 
 
 use App\Models\CommunityLink;
+use App\Models\Channel;
 use Illuminate\Http\Request;
 
 
@@ -20,7 +22,9 @@ class CommunityLinkController extends Controller
     public function index()
     {
         $links = CommunityLink::paginate(25);
-        return view('community/index', compact('links'));
+        $channels = Channel::orderBy('title','asc')->get();
+        return view('community/index', compact('links', 'channels'));
+        
     }
 
     /**
@@ -39,16 +43,19 @@ class CommunityLinkController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    /*este método store sirve para guardar
-     *los datos del formulario de la vista index para escribir un title y un link.
+    /* Este método store sirve para guardar los datos del formulario 
+     * de la vista index para escribir un title y un link.
      * He tenido tb que incluir "use Illuminate\Support\Facades\Auth;" para que me reconociera la clase Auth 
      */
      public function store(Request $request)
     {   
         $this->validate($request, [
             'title' => 'required',
-            'link' =>  'required|active_url'
-
+            'link' =>  'required|active_url',
+            
+            // en el Ejercicio 1 de A35 he hecho un partial sacando de aquí el campo "channel_id" para 
+            // llevármelo al método store del controlador ChannelController
+            // O es mejor haberlo dejado aqui??????
         ]);
         //dd($request);
         request()->merge(['user_id' => Auth::id(), 'channel_id' => 1]);
